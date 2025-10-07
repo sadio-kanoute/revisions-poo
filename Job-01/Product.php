@@ -1,0 +1,150 @@
+<?php
+
+/**
+ * Product class representing a product in a store.
+ */
+class Product
+{
+    private int $id;
+    private string $name;
+    /** @var string[] */
+    private array $photos;
+    private int $price;
+    private string $description;
+    private int $quantity;
+    private DateTime $createdAt;
+    private DateTime $updatedAt;
+
+    /**
+     * Product constructor.
+     *
+     * @param int $id
+     * @param string $name
+     * @param string[] $photos
+     * @param int $price
+     * @param string $description
+     * @param int $quantity
+     * @param DateTime $createdAt
+     * @param DateTime $updatedAt
+     */
+    public function __construct(
+        int $id,
+        string $name,
+        array $photos,
+        int $price,
+        string $description,
+        int $quantity,
+        DateTime $createdAt,
+        DateTime $updatedAt
+    ) {
+        $this->setId($id);
+        $this->setName($name);
+        $this->setPhotos($photos);
+        $this->setPrice($price);
+        $this->setDescription($description);
+        $this->setQuantity($quantity);
+        $this->setCreatedAt($createdAt);
+        $this->setUpdatedAt($updatedAt);
+    }
+
+    // Getters
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /** @return string[] */
+    public function getPhotos(): array
+    {
+        return $this->photos;
+    }
+
+    public function getPrice(): int
+    {
+        return $this->price;
+    }
+
+    public function getDescription(): string
+    {
+        return $this->description;
+    }
+
+    public function getQuantity(): int
+    {
+        return $this->quantity;
+    }
+
+    public function getCreatedAt(): DateTime
+    {
+        return $this->createdAt;
+    }
+
+    public function getUpdatedAt(): DateTime
+    {
+        return $this->updatedAt;
+    }
+
+    // Setters with basic validation
+
+    public function setId(int $id): void
+    {
+        if ($id < 0) {
+            throw new InvalidArgumentException('id must be a natural number (>= 0)');
+        }
+        $this->id = $id;
+    }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
+    /** @param string[] $photos */
+    public function setPhotos(array $photos): void
+    {
+        // Ensure every element is a string
+        foreach ($photos as $p) {
+            if (!is_string($p)) {
+                throw new InvalidArgumentException('photos must be an array of strings');
+            }
+        }
+        $this->photos = $photos;
+    }
+
+    public function setPrice(int $price): void
+    {
+        if ($price < 0) {
+            throw new InvalidArgumentException('price must be a natural number (>= 0)');
+        }
+        $this->price = $price;
+    }
+
+    public function setDescription(string $description): void
+    {
+        $this->description = $description;
+    }
+
+    public function setQuantity(int $quantity): void
+    {
+        if ($quantity < 0) {
+            throw new InvalidArgumentException('quantity must be a natural number (>= 0)');
+        }
+        $this->quantity = $quantity;
+    }
+
+    public function setCreatedAt(DateTime $createdAt): void
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    public function setUpdatedAt(DateTime $updatedAt): void
+    {
+        $this->updatedAt = $updatedAt;
+    }
+}
