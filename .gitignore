@@ -1,0 +1,29 @@
+# Ignore dependency directories
+vendor/
+node_modules/
+
+# Environment files
+.env
+.env.*
+
+# Logs and runtime files
+*.log
+*.cache
+.phpunit.result.cache
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE/editor directories
+.vscode/
+.idea/
+
+# Composer
+composer.phar
+
+# PHPUnit cache
+.phpunit.result.cache
+
+# Misc
+*.swp
