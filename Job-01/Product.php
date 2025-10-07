@@ -1,7 +1,17 @@
 <?php
 
 /**
- * Product class representing a product in a store.
+ * Classe Product
+ *
+ * Représente un produit dans une boutique. Cette classe contient des propriétés
+ * privées (accessibles uniquement depuis la classe) et des méthodes publiques
+ * (getters/setters) pour lire et modifier ces propriétés.
+ *
+ * Pour les débutants :
+ * - Les propriétés privées protègent les données de l'objet.
+ * - Les getters permettent de lire les valeurs depuis l'extérieur.
+ * - Les setters permettent de modifier les valeurs en appliquant une
+ *   validation si nécessaire.
  */
 class Product
 {
@@ -47,7 +57,10 @@ class Product
         $this->setUpdatedAt($updatedAt);
     }
 
-    // Getters
+    // ----------------------------
+    // GETTERS
+    // ----------------------------
+    // Les getters retournent la valeur d'une propriété privée.
 
     public function getId(): int
     {
@@ -90,7 +103,12 @@ class Product
         return $this->updatedAt;
     }
 
-    // Setters with basic validation
+    // ----------------------------
+    // SETTERS (avec validation minimale)
+    // ----------------------------
+    // Les setters permettent de modifier les propriétés. Ici, on vérifie que
+    // certains champs numériques sont des entiers naturels (>= 0). En cas
+    // d'erreur, on lève une exception pour signaler un mauvais usage.
 
     public function setId(int $id): void
     {
