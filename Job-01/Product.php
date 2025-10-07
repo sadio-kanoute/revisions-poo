@@ -7,11 +7,9 @@
  * privées (accessibles uniquement depuis la classe) et des méthodes publiques
  * (getters/setters) pour lire et modifier ces propriétés.
  *
- * Pour les débutants :
  * - Les propriétés privées protègent les données de l'objet.
- * - Les getters permettent de lire les valeurs depuis l'extérieur.
- * - Les setters permettent de modifier les valeurs en appliquant une
- *   validation si nécessaire.
+ * - Les getters lisent les valeurs depuis l'extérieur.
+ * - Les setters modifient les valeurs et peuvent valider les données.
  */
 class Product
 {
