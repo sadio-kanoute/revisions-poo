@@ -1,0 +1,21 @@
+# Git cheat-sheet minimal pour Windows PowerShell
+
+cd 'c:/wamp64/www/revisions-poo'
+
+# Vérifier l'état
+git status
+
+# Ajouter des fichiers (exemples)
+git add Job-01/Product.php
+git add Job-02/ Job-03/ sql/
+
+# Committer
+git commit -m "Message de commit clair et court"
+
+# Pousser vers origin main
+git push origin main
+
+# Pour committer tous les changements non ignorés
+git add -A
+git commit -m "Message"
+git push

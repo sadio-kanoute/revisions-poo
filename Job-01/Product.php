@@ -13,15 +13,16 @@
  */
 class Product
 {
-    private int $id;
-    private string $name;
+    private int $id = 0;
+    private string $name = '';
     /** @var string[] */
-    private array $photos;
-    private int $price;
-    private string $description;
-    private int $quantity;
+    private array $photos = [];
+    private int $price = 0;
+    private string $description = '';
+    private int $quantity = 0;
     private DateTime $createdAt;
     private DateTime $updatedAt;
+    private int $category_id = 0;
 
     /**
      * Product constructor.
@@ -36,14 +37,15 @@ class Product
      * @param DateTime $updatedAt
      */
     public function __construct(
-        int $id,
-        string $name,
-        array $photos,
-        int $price,
-        string $description,
-        int $quantity,
-        DateTime $createdAt,
-        DateTime $updatedAt
+        int $id = 0,
+        string $name = '',
+        array $photos = [],
+        int $price = 0,
+        string $description = '',
+        int $quantity = 0,
+        ?DateTime $createdAt = null,
+        ?DateTime $updatedAt = null,
+        ?int $category_id = null
     ) {
         $this->setId($id);
         $this->setName($name);
@@ -51,8 +53,11 @@ class Product
         $this->setPrice($price);
         $this->setDescription($description);
         $this->setQuantity($quantity);
-        $this->setCreatedAt($createdAt);
-        $this->setUpdatedAt($updatedAt);
+        $this->setCreatedAt($createdAt ?? new DateTime());
+        $this->setUpdatedAt($updatedAt ?? new DateTime());
+        if ($category_id !== null) {
+            $this->setCategoryId($category_id);
+        }
     }
 
     // ----------------------------
@@ -99,6 +104,11 @@ class Product
     public function getUpdatedAt(): DateTime
     {
         return $this->updatedAt;
+    }
+
+    public function getCategoryId(): int
+    {
+        return $this->category_id;
     }
 
     // ----------------------------
@@ -162,5 +172,13 @@ class Product
     public function setUpdatedAt(DateTime $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
+    }
+
+    public function setCategoryId(int $category_id): void
+    {
+        if ($category_id < 0) {
+            throw new InvalidArgumentException('category_id must be a natural number (>= 0)');
+        }
+        $this->category_id = $category_id;
     }
 }
