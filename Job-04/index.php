@@ -35,3 +35,12 @@ $product->setCategoryId($row['category_id'] === null ? 0 : (int)$row['category_i
 
 echo "Produit hydraté depuis la DB :\n";
 var_dump($product);
+
+// Récupérer et afficher la catégorie associée via Product::getCategory()
+$category = $product->getCategory();
+if ($category === null) {
+    echo "Aucune catégorie trouvée pour ce produit.\n";
+} else {
+    echo "Catégorie associée :\n";
+    var_dump($category);
+}

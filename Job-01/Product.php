@@ -181,4 +181,84 @@ class Product
         }
         $this->category_id = $category_id;
     }
+
+    /**
+     * Retourne l'objet Category associé ou null si introuvable.
+     * Utilise la configuration dans config.php pour se connecter à la base.
+     */
+    public function getCategory(): ?object
+    {
+        if ($this->category_id <= 0) {
+            return null;
+        }
+
+        $categoryFile = __DIR__ . '/../Job-02/Category.php';
+        if (!file_exists($categoryFile)) {
+            throw new RuntimeException('Category.php introuvable.');
+        }
+        require_once $categoryFile;
+
+        $configFile = __DIR__ . '/../config.php';
+        if (!file_exists($configFile)) {
+            throw new RuntimeException('config.php introuvable.');
+        }
+        $config = require $configFile;
+
+        $dsn = sprintf('mysql:host=%s;dbname=%s;charset=%s', $config['db']['host'], $config['db']['dbname'], $config['db']['charset']);
+        $pdo = new PDO($dsn, $config['db']['user'], $config['db']['pass'], [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+
+        $stmt = $pdo->prepare('SELECT * FROM category WHERE id = :id');
+        $stmt->execute([':id' => $this->category_id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$row) {
+            return null;
+        }
+
+        $cat = new Category();
+        $cat->setId((int)$row['id']);
+        $cat->setName($row['name']);
+        $cat->setDescription($row['description']);
+        $cat->setCreatedAt(new DateTime($row['created_at']));
+        $cat->setUpdatedAt(new DateTime($row['updated_at']));
+
+        return $cat;
+    }
+
+    /**
+     * Hydrate the current Product instance using the given id.
+     * Returns $this on success, or false if no row with the id exists.
+     *
+     * @param int $id
+     * @return Product|false
+     */
+    public function findOneById(int $id)
+    {
+        $configFile = __DIR__ . '/../config.php';
+        if (!file_exists($configFile)) {
+            throw new RuntimeException('config.php introuvable.');
+        }
+        $config = require $configFile;
+
+        $dsn = sprintf('mysql:host=%s;dbname=%s;charset=%s', $config['db']['host'], $config['db']['dbname'], $config['db']['charset']);
+        $pdo = new PDO($dsn, $config['db']['user'], $config['db']['pass'], [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+
+        $stmt = $pdo->prepare('SELECT * FROM product WHERE id = :id');
+        $stmt->execute([':id' => $id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if (!$row) {
+            return false;
+        }
+
+        $this->setId((int)$row['id']);
+        $this->setName($row['name']);
+        $this->setPhotos([$row['photos']]);
+        $this->setPrice((int)$row['price']);
+        $this->setDescription($row['description']);
+        $this->setQuantity((int)$row['quantity']);
+        $this->setCreatedAt(new DateTime($row['created_at']));
+        $this->setUpdatedAt(new DateTime($row['updated_at']));
+        $this->setCategoryId($row['category_id'] === null ? 0 : (int)$row['category_id']);
+
+        return $this;
+    }
 }
