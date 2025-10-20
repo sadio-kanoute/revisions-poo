@@ -1,6 +1,7 @@
 <?php
-
 namespace App\Abstract;
+
+use DateTime;
 
 abstract class AbstractProduct
 {
@@ -11,8 +12,8 @@ abstract class AbstractProduct
     protected int $price;
     protected string $description;
     protected int $quantity;
-    protected \DateTime $createdAt;
-    protected \DateTime $updatedAt;
+    protected DateTime $createdAt;
+    protected DateTime $updatedAt;
 
     public function __construct(
         int $id = 0,
@@ -21,8 +22,8 @@ abstract class AbstractProduct
         int $price = 0,
         string $description = '',
         int $quantity = 0,
-        ?\DateTime $createdAt = null,
-        ?\DateTime $updatedAt = null
+        ?DateTime $createdAt = null,
+        ?DateTime $updatedAt = null
     ) {
         $this->id = $id;
         $this->category_id = 0;
@@ -31,11 +32,10 @@ abstract class AbstractProduct
         $this->price = $price;
         $this->description = $description;
         $this->quantity = $quantity;
-        $this->createdAt = $createdAt ?? new \DateTime();
-        $this->updatedAt = $updatedAt ?? new \DateTime();
+        $this->createdAt = $createdAt ?? new DateTime();
+        $this->updatedAt = $updatedAt ?? new DateTime();
     }
 
-    // Getters/Setters (omitted for brevity - still present in non-namespaced classes)
     abstract public static function findOneById(int $id);
     abstract public static function findAll(): array;
     abstract public function create();

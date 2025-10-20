@@ -106,9 +106,16 @@ class Category
         $stmt->execute(['id' => $this->id]);
         $rows = $stmt->fetchAll();
         $out = [];
+        // Try to load each product as a known child type (Clothing, Electronic).
+        // Child classes implement fallbacks when their child-table is missing.
+        require_once __DIR__ . '/../Job-11/Clothing.php';
+        require_once __DIR__ . '/../Job-11/Electronic.php';
         foreach ($rows as $r) {
-            require_once __DIR__ . '/../Job-11/Clothing.php';
-            $p = Clothing::findOneById((int)$r['id']);
+            $id = (int)$r['id'];
+            $p = Clothing::findOneById($id);
+            if ($p === false) {
+                $p = Electronic::findOneById($id);
+            }
             if ($p !== false) {
                 $out[] = $p;
             }
